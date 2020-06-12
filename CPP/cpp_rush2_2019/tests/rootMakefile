@@ -1,0 +1,34 @@
+##
+## EPITECH PROJECT, 2020
+## cpp_rush2_2019
+## File description:
+## Makefile
+##
+
+SRC =	Teddy.cpp		\
+		LittlePony.cpp	\
+		Object.cpp		\
+		Toy.cpp		
+		# Box.cpp		\
+		# GiftPaper.cpp	\
+		# Wrap.cpp	
+
+OBJ	=	$(SRC:.cpp=.o)
+
+NAME	=	a.out
+
+RM	=	rm
+
+all:	$(OBJ)
+	g++ -Wall -Wextra -Werror -o $(NAME) $(SRC)
+
+re:	fclean all
+
+clean:
+	$(RM) -rf $(OBJ)
+
+fclean:	clean
+	$(RM) -rf $(NAME) *.o *~ *#
+
+test_run:
+	make -C tests

@@ -1,0 +1,83 @@
+#!/usr/bin/env  python3
+from __future__ import print_function
+import sys
+import math
+
+def checkNumbers(argv):
+    val_1 = argv[1]
+    val_2 = argv[2]
+    val_3 = argv[3]
+    try:
+        population = float(val_1) 
+        sample = float(val_2)
+        poll = float(val_3) 
+    except ValueError:
+        exit(84)
+    if (population < 0):
+        exit(84)
+    printPopulation(population, sample, poll)
+
+def printPopulation(population, sample, poll):
+    print("Population size:\t", end = "")
+    print(int(population))
+    printSample(population, sample, poll)
+
+def printSample(population,sample, poll):
+    print("Sample size:\t\t", end = "")
+    print(int(sample))
+    printPercentatge(population,sample, poll)
+
+def printPercentatge(population, sample, poll):
+    print("Voting intentions:\t", end = "")
+    print(int(poll),end = "")
+    print("%")
+    calculateVariance(population, sample, poll)
+
+def calculateVariance(population, sample, poll):
+    p = poll/100
+    variance = ((p*(1-p))/sample) * ((population-sample)/ (population-1))
+    print("Variance:\t\t", end = "")
+    print("%.6f" % variance, end ="")
+    print("")
+    calculate95(variance, poll)
+
+def calculate95(variance, poll):
+    temp = (2* 1.96 * math.sqrt(variance)) / 2 * 100
+    print("95% confidence interval:\t[", end="")
+    bro1 = poll - temp
+    bro2 = poll + temp
+    print("%.2f" % bro1, end = "")
+    print("% ; ", end = "")
+    print("%.2f" % bro2, end = "")
+    print("%]")
+    calculate99(variance, poll)
+
+def calculate99(variance, poll):
+    temp = (2 * 2.58 * math.sqrt(variance)) / 2*100
+    print("99% confidence interval:\t[", end="")
+    bro1 = poll - temp
+    bro2 = poll + temp
+    print("%.2f" % bro1, end = "")
+    print("% ; ", end = "")
+    print("%.2f" % bro2, end = "")
+    print("%]")
+
+def help():
+    print("USAGE")
+    print("\t./209poll pSize sSize p\n")
+    print("DESCRIPTION")
+    print("\tppSize\tsize of the population")
+    print("\tsSize\tsize of the sample (supposed to be representative)")
+    print("\tp\tpercentage of voting intentions for a specific candidate")
+
+if __name__ == "__main__":
+    try:
+        if len(sys.argv) == 2 and sys.argv[1] == "-h":
+            help()
+        elif len(sys.argv) == 4:
+            checkNumbers(sys.argv)
+        else:
+            exit(84)
+    except Exception as e:
+        exit(84)
+    exit(0)

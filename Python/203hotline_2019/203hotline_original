@@ -1,0 +1,103 @@
+#! /usr/bin/python2.7
+from __future__ import print_function
+import sys
+import math
+import time
+
+def factSimple(p_1):
+    clock_binomial = time.clock()
+    i = 0
+    i_int = int(i)
+    a = False
+    p = float(p_1)/28800
+    ovl = 0
+    print("Binomial distribution:")
+    while (i_int < 51):
+        solution = factComplex(3500, i_int, a)
+        if not solution:
+            solution = 0
+        print(i_int, end = "")
+        print( " -> ", end="")
+        result = solution*pow(p,i_int)*pow((1-p), (3500-i_int))
+        print("%.3f" % result, end='')
+        if (i_int > 25):
+            ovl = result + ovl
+        print("\t",end="")
+        if (i_int%6 == 5):
+            print("")
+        i_int = i_int + 1  
+    print("\nOverload:  ",end="")
+    print("%.1f" % (ovl*100), end="")
+    print("%")
+    print("computation time:  ",end="")
+    print("%.2f" % (clock_binomial*1000),end="")
+    print(" ms")       
+    factPoisson(p_1)
+
+def factPoisson(p_1):
+    clock_poisson = time.clock()
+    print("\nPoisson Distribution:")
+    i_int = 0
+    ovl = 0
+    while (i_int < 51):
+        print(i_int, end = "")
+        print( " -> ", end="")
+        if i_int == 0:
+            lamb = 0
+        else:
+            lamb = ((float(p_1)/3600)*3500)/8
+        poisson = ((math.exp(-lamb)*pow(lamb,i_int))/math.factorial(i_int))
+        print("%.3f" % poisson, end="")
+        if (i_int > 25):
+            ovl = poisson + ovl
+        print("\t",end="")
+        if (i_int%6 == 5):
+            print("")
+        i_int = i_int + 1  
+    print("\nOverload:  ",end="")
+    print("%.1f" % (ovl*100), end="")
+    print("%")
+    print("computation time:  ",end="")
+    print("%.2f" % ((time.clock()-clock_poisson)*1000),end="")
+    print(" ms")       
+
+
+def factComplex(n, k, a):
+    if n > k and a == True:
+        print (k, end="")
+        print ("-combination of a ", end="")
+        print (n , end="")
+        print (" set:" )
+        print ("0") 
+        exit
+    if n == k:
+        print("Error: Division by 0!")
+        exit
+    else:
+        n_int = int(n)
+        k_int = int(k)
+        nk = n_int - k_int
+        if a == True:
+            print(math.factorial(n_int)/(math.factorial(k_int)*math.factorial(nk)))    
+        else:
+            return(math.factorial(n_int)/(math.factorial(k_int)*math.factorial(nk)))
+
+def usage():
+    print("USAGE")
+    print("\t\t./203 hotline [n k | d]")
+    print("DESCRIPITON")
+    print("\t\tn\tn value for the computation of (n k)")
+    print("\t\tk\tk value for the computation of (n k)")   
+    print("\t\td\taverage duration of calls (in seconds)")      
+
+if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        exit
+    if len(sys.argv) == 2 and sys.argv[1] == "-h":
+        usage()
+    elif len(sys.argv) == 2 and sys.argv[1] != "-h":
+        factSimple(sys.argv[1])
+    elif len(sys.argv) == 3:
+        factComplex(sys.argv[1], sys.argv[2], True)
+
+         

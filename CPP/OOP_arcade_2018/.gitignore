@@ -1,0 +1,6 @@
+*.vscode
+*.o
+*.so
+*.gcda
+*.gcno
+unit_tests

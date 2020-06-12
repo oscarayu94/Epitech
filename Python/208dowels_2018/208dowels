@@ -1,0 +1,48 @@
+#! /usr/bin/python2.7
+from __future__ import print_function
+import sys
+import math
+
+class dowelse (object):
+    
+    observedclass = []
+
+    def getList(self, argv):
+        for val in range (1,len(argv)):
+            self.observedclass.append(int(argv[val]))
+        print(self.observedclass)
+
+    def calculus(   self, argv):
+        arr = []
+        i = 1
+        while (i != 9):
+            if (argv[i] == 10):
+                arr[i] = argv[i]
+                i += 1
+                continue
+            else:
+                if (argv[i] + argv[i + 1] == 10):
+                    arr[i] = argv[i] + argv[i + 1]        
+
+    def help(self):
+        print("USAGE")
+        print("\t./208dowels 00 01 02 03 04 05 06 07 08\n")
+        print("DESCRIPTION")
+        print("\tOi\tsize of the observed class")
+
+    def start( self, argv):      
+        print(len(argv))  
+        if len(sys.argv) == 2 and argv[1] == "-h":
+            self.help()
+        elif len(argv) == 10:
+            self.getList(argv)
+            #self.check_nums(argv)
+        else:
+            exit(84)
+
+if __name__ == "__main__":
+    #try:
+    dowelse = dowelse()
+    dowelse.start(sys.argv)
+    #except Exception as e:
+    exit(0)

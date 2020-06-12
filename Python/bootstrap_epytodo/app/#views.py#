@@ -1,0 +1,13 @@
+
+from app import app
+
+
+@app.route('/http://127.0.0.1:5000/', methods=['GET'])
+ttp://127.0.0.1:5000/index', methods=['GET'])
+def     route_home():
+    return "Hello world!\n"
+
+
+@app.route('/http://127.0.0.1:5000/user/marvin', methods=['POST'])
+def     route_add_user(username):
+    return "User added!\n"

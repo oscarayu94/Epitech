@@ -1,0 +1,171 @@
+#!/bin/sh
+## EPITECH PROJECT, 2018
+## automakefile
+## File description:
+## automakefile
+##
+
+if [[ ! -e "$1" ]]
+then
+    printf "Wrong argumentation\n"
+    exit 84
+fi
+if [[ -z "$1" ]]
+then
+    printf "Wrong argumentation\n"
+    exit 84
+fi
+if [[ ! -z "$2" ]]
+then
+    printf "Wrong argumentation\n"
+    exit 84
+fi
+
+dir=`echo $1 | cut -d "/" -f1`
+printf "#\n" > $dir/Makefile
+printf "## EPITECH PORJECT, 2018" >> $dir/Makefile
+printf "\n" >> $dir/Makefile
+printf "## Makefile " >> $dir/Makefile
+printf "\n" >> $dir/Makefile
+printf "##\n" >> $dir/Makefile
+printf "## File description\n" >> $dir/Makefile
+printf "## makefile\n" >> $dir/Makefile
+printf "##\n\n" >> $dir/Makefile
+while read line
+do
+    opt= `echo $line | cut -d ':' -f1`
+    wrt= `echo $line | cut -d ':' -f2`
+    if [[ $opt = "EXEC" ]] && [[ ! -z $wrt ]]
+    then
+	printf "EXEC\t="
+	echo "$wrt"
+	printf "\n"
+    fi
+    if [[ $opt = "PROJECT_DIR" ]] && [[ ! -z $wrt ]]
+    then
+	printf "PROJECT_DIR\t=\t"
+	echo "$wrt"
+	printf "\n"
+    fi
+    if [[ $opt = "SOURCES_DIR" ]] && [[ ! -z $wrt ]]
+    then
+	printf "SOURCES_DIR\t=\t"
+	echo "$wrt"
+	printf "\n"
+    fi
+    if [[ $opt = "HEADERS_DIR" ]] && [[ ! -z $wrt ]]
+    then
+	printf "HEADERS_DIR\t=\t"
+	echo "$wrt"
+	printf "\n"
+    fi
+    if [[ $opt = "LIBS_DIR" ]] && [[ ! -z $wrt ]]
+    then
+	printf "LIBS_DIR\t=\t"
+	echo "$wrt"
+	printf "\n"
+    fi
+    if [[ $opt = "CC" ]] && [[ ! -z $wrt ]]
+    then
+	printf "CC\t\t=\t"
+	echo "$wrt"
+	printf "\n"
+    fi
+    if [[ $opt = "CFLAGS" ]] && [[ ! -z $wrt ]]
+    then
+	printf "CFLAGS\t\t+=\t-I./\$(HEADERS_DIR) "
+	echo "$wrt"
+	printf "\n"
+    fi
+    if [[ $opt = "LDFLAGS" ]] && [[ ! -z $wrt ]]
+    then
+	printf "LDFLAGS\t\t=\t"
+	echo "$wrt"
+	printf "\n"
+    fi
+    if [[ $opt = "BCK_DIR" ]] && [[ ! -z $wrt ]]
+    then
+	printf "BCK_DIR\t\t=\t"
+	echo "$wrt"
+	printf "\n"
+    fi
+    if [[ $opt = "ZIP" ]] && [[ ! -z $wrt ]]
+    then
+	printf "ZIP\t\t=\t"
+	echo "$wrt"
+	printf "\n"
+    fi
+    if [[ $opt = "ZIPFLAGS" ]] && [[ ! -z $wrt ]]
+    then
+	printf "ZIPFLAGS\t=\t"
+	echo "$wrt"
+	printf "\n"
+    fi
+    if [[ $opt = "UNZIP" ]] && [[ ! -z $wrt ]]
+    then
+	printf "UNZIP\t\t=\t"
+	echo "$wrt"
+	printf "\n"
+    fi
+    if [[ $opt = "UNZIPFLAGS" ]] && [[ ! -z $wrt ]]
+    then
+	printf "UNZIPFLAGS\t=\t"
+	echo "$wrt"
+	printf "\n"
+    fi
+    if [[ $line =~ ".c" ]]
+    then
+	if [[ $opt =~ ".c" ]]
+	then
+	    srcs[i]=`echo $var | cut -d " " -f1`
+	    let i++
+	fi
+	if [[ $wrt =~ ".c" ]]
+	then
+	    srcs[i]=`echo $use | cut -d " " -f2`
+	    let i++
+	fi
+    if [[ $line =~ ".h" ]]
+    then
+	if [[ $var =~ ".h" ]]
+	then
+	    inc[j]=`echo $var | cut -d " " -f1`
+	    let j++
+	fi
+	if [[ $use =~ ".h" ]]
+	then
+	    inc[j]=`echo $use | cut -d " " -f1`
+	    let j++
+	fi
+    fi
+done < $1 >> $dir/Makefile
+i=0
+printf "SRCS\t\t=" >> $dir/Makefile
+for i in "${srcs[@]}"
+do
+    printf "\t\$(SOURCES_DIR)/$i"
+    printf " \\"
+    printf "\n\t\t"
+done >> $dir/Makefile
+j=0
+printf "\nINCLUDE\t\t=" >> $dir/Makefile
+for j in "${inc[@]}"
+do
+    printf "\t\$(HEADERS_DIR)/$j"
+    printf " \\"
+    printf "\n\t\t"
+done >> $dir/Makefile
+printf "\nRM\t\t=\trm -f\n" >> $dir/Makefile
+printf "\nOBJS\t\t=\t\$(SRCS:.c=.o)\n" >> $dir/Makefile
+printf "\nall\t:\t\$(EXEC)\n\n" >> $dir/Makefile
+printf "\$(EXEC)\t:\t\$(OBJS)\n" >> $dir/Makefile
+printf "\t\t\$(CC) \$(CFLAGS) \$(LDFLAGS) \$(OBJS) -o \$(EXEC) -L \$(LIBS_DIR)\n" >> $dir/Makefile
+printf "clean\t:\n\t\t\$(RM) \$(EXEC)\n\n" >> $dir/Makefile
+printf "fclean\t:\tclean\n\t\t\$(RM) \$(OBJS)\n\n" >> $dir/Makefile
+printf "re\t:\tfclean all\n\n" >> $dir/Makefile
+printf "archive\t:\n\t\t\$(ZIP) \$(ZIPFLAGS) \$(BCK_DIR)/backup.\$(ZIP) \$(SRCS)\n" >> $dir/Makefile
+printf "\t\t""@echo \$(EXEC).\$(ZIP) file generated.\n\n" >> $dir/Makefile
+printf "revert\t:\n\t\t\$(UNZIP) \$(UNZIPFLAGS) \$(BCK_DIR)/backup.\$(ZIP)\n\n" >> $dir/Makefile
+printf "num\t:\n\t\t""@echo version 1.0\n\n" >> $dir/Makefile
+printf "delete\t:\n\t\trm -rf \$(BCK_DIR)/backup.\$(ZIP)\n\n" >> $dir/Makefile
+printf ".PHONY\t:\tfclean clean all re\n" >> $dir/Makefile

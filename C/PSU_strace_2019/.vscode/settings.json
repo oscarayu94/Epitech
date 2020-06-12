@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.html.erb": "html",
+    "ptrace.h": "c",
+    "list.h": "c",
+    "types.h": "c"
+  }
+}

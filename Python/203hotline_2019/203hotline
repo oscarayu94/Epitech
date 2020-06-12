@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+import sys
+import time
+import math
+
+def formulaBinomial(n, k, a):
+    if n > k and a == True:
+        print (k, end="")
+        print ("-combination of a ", end="")
+        print (n , end="")
+        print (" set:" )
+        print ("0") 
+        exit(84)
+    if n == k:
+        print("Error: Division by 0!")
+        exit(84)
+    else:
+        nval_int = int(n)
+        kval_int = int(k)
+        nkval = nval_int - kval_int
+        if nval_int < 0 or kval_int < 0:
+            print("I can't factorize negative numbers, sorry")
+            exit(84)
+        if a == True:
+            temporalSolution = (math.factorial(nval_int)/(math.factorial(kval_int)*math.factorial(nkval)))
+            print("%.0f" % temporalSolution)
+        else:
+            return(math.factorial(nval_int)/(math.factorial(kval_int)*math.factorial(nkval)))
+
+def formulaPoisson(value1):
+    clock_begin = time.perf_counter()
+    print("\nPoisson Distribution:")
+    interval_int = 0
+    oval = 0
+    while (interval_int < 51):
+        print(interval_int, end = "")
+        print( " -> ", end="")
+        if interval_int == 0:
+            landa = 0
+        else:
+            landa = ((float(value1)/3600)*3500)/8
+        solution = ((math.exp(-landa)*pow(landa,interval_int))/math.factorial(interval_int))
+        print("%.3f" % solution, end="")
+        if (interval_int > 25):
+            oval = solution + oval
+        print("\t",end="")
+        if (interval_int%6 == 5):
+            print("")
+        interval_int = interval_int + 1  
+    print("\nOverload:  ",end="")
+    print("%.1f" % (oval*100), end="")
+    print("%")
+    print("computation time:  ",end="")
+    print("%.2f" % ((time.perf_counter()-clock_begin)*1000),end="")
+    print(" ms")       
+
+
+def binomialDistribution(value1):
+    clock_begin = time.perf_counter()
+    interval = 0
+    interval_int = int(interval)
+    condition = False
+    position = float(value1)/28800
+    oval = 0
+    print("Binomial distribution:")
+    while (interval_int < 51):
+        solution = formulaBinomial(3500, interval_int, condition)
+        if not solution:
+            solution = 0
+        print(interval_int, end = "")
+        print( " -> ", end="")
+        result = solution*pow(position,interval_int)*pow((1-position), (3500-interval_int))
+        print("%.3f" % result, end='')
+        if (interval_int > 25):
+            oval = result + oval
+        print("\t",end="")
+        if (interval_int%6 == 5):
+            print("")
+        interval_int = interval_int + 1  
+    print("\nOverload:  ",end="")
+    print("%.1f" % (oval*100), end="")
+    print("%")
+    print("computation time:  ",end="")
+    print("%.2f" % ((time.perf_counter()-clock_begin)*1000),end="")
+    print(" ms")       
+
+def checkNumbers(value1,value2):
+    value_1 = value1
+    value_2 = value2
+    try:
+        val1 = float(value_1)
+        val2 = float(value_2)
+    except ValueError:
+        print ("NaN error!")
+        exit(84)
+
+def help():
+    print("USAGE")
+    print("\t\t./203 hotline [n k | d]")
+    print("DESCRIPTION")
+    print("\t\tn\tn value for the computation of (n k)")
+    print("\t\tk\tk value for the computation of (n k)")
+    print("\t\td\taverage duration fo calls (in seconds)")
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2 or len(sys.argv) > 3:
+        exit(84)
+    if len(sys.argv) == 2 and sys.argv[1] == "-h":
+        help()
+    elif len(sys.argv) == 2 and sys.argv[1] != "-h":
+        checkNumbers(sys.argv[1],1)
+        binomialDistribution(sys.argv[1])
+        formulaPoisson(sys.argv[1])
+    elif len(sys.argv) == 3:
+        checkNumbers(sys.argv[1],sys.argv[2])
+        formulaBinomial(sys.argv[1], sys.argv[2], True)

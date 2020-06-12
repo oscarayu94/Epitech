@@ -1,0 +1,7 @@
+a.out
+groundhog
+*.o
+*~
+.vgcore
+.idea
+.vscode

@@ -1,0 +1,232 @@
+#!/usr/bin/env python3
+# coding=UTF-8
+
+from sys import argv, exit
+
+import math
+import time
+import csv
+
+# import scipy.integrate as integrate
+# import scipy.special as special
+
+class Print(object):
+	def print_help(self):
+		print("USAGE\n\t./207demography code [...]\n\nDESCRIPTION\n\tcode\tcountry code")
+
+class Demography(object):
+	sum_x = 0
+	sum_y = 0
+	sum_xy = 0
+	sum_x_square = 0
+	sum_y_square = 0
+	num_values = 0
+	start_year = 1960
+
+	correlation=0
+	predicted_population=0
+	m = 0
+	b = 0
+	rms = 0
+	countrys = []
+	my_country = []
+
+	def get_values(self, arg):
+		file = open('./207demography_data.csv', newline='')
+		country = {
+			"name": "",
+			"code": "",
+			"years": []
+		}	
+		csv_file = csv.reader(file, delimiter=";")
+		for row in csv_file:
+			if arg == row[1]:
+				country["name"] = row[0]
+				country["code"] = row[1]
+				country['years'] = row[2:]
+		#print(country["years"])
+		return country
+
+	def calculate(self, country, val):
+		Demography.sum_x = 0
+		Demography.sum_y = 0
+		Demography.sum_xy = 0
+		Demography.sum_x_square = 0
+		Demography.num_values = 0
+		year = Demography.start_year
+
+		for year_value in Demography.my_country:
+			if (val == 1):
+				x = int(year)
+				y = int(year_value)
+			else:
+				y = int(year)
+				x = int(year_value)
+			Demography.sum_xy += x * y
+			Demography.sum_x_square += x * x
+			Demography.sum_y_square += y * y
+			Demography.sum_x += x
+			Demography.sum_y += y
+			Demography.num_values += 1
+			year = year + 1
+		return 0
+	
+	def calculate_m(self):
+		#print(str(Demography.num_values) + "," + str(Demography.sum_xy) + "," + str(Demography.sum_x_square))
+		Demography.m = (Demography.num_values*Demography.sum_xy)- (Demography.sum_x * Demography.sum_y)
+		#print(Demography.m)
+		Demography.m = Demography.m / ((Demography.num_values * Demography.sum_x_square) - pow(Demography.sum_x, 2))
+		#print(Demography.m)
+	
+	def calculate_b(self):
+		Demography.b = (Demography.sum_y - (Demography.m * Demography.sum_x))/Demography.num_values
+		#print(Demography.b)
+
+		return 0
+
+	def simplify(self):
+		while (Demography.m >= 10):
+			Demography.m = Demography.m / 10
+			Demography.b = Demography.b / 10
+			Demography.rms = Demography.rms / 10
+
+		while (Demography.m < 0.1):
+			Demography.m = Demography.m * 10
+			#Demography.b = Demography.b * 10
+
+	def print_stuff(self, val):
+		if (val == 1):
+			print("Country: ", end="")
+			count = 1
+			l = []
+			for country in Demography.countrys:
+				l.append(country["name"])
+			l.sort(key=str.lower)
+			for country in l:
+				print(country, end="")
+				if count < len(Demography.countrys):
+					print(", ", end="")
+				count = count + 1
+			print("\n", end="")
+		#The fit
+		if val == 1:
+			print("Fit" + str(val) + "\n    Y = " + "%.2f" % Demography.m + " X ", end="")
+		else:
+			print("Fit" + str(val) + "\n    X = " + "%.2f" % Demography.m + " Y ", end="")
+		
+		if (Demography.b < 0):
+			print("- ", end="")
+		else:
+			print("+ ", end="")
+		print("%.2f" % abs(Demography.b))
+		#The root mean square
+		print("    Root-mean-square deviation: " + "%.2f" % Demography.rms)
+		print("    Population in 2050: " + "%.2f" % Demography.predicted_population)
+		if val == 2:
+			print("Correlation: " + "%.4f" % Demography.correlation)
+
+	def calculate_my_country(self):
+		val = 0
+
+		for country in Demography.countrys:
+			#print(country)
+			if val == 0:
+				#Demography.my_country = country["years"]
+				for x in range(len(country["years"])):
+					Demography.my_country.append(int((country["years"])[x]))
+			else:
+				for x in range(len(country["years"])):
+					#print(x)
+					#print(((country["years"])[x]))
+					(Demography.my_country[x]) += int((((country["years"])[x])))
+			val = val + 1
+
+	def print_years(self, country):
+		print(Demography.my_country['name'], end='')
+		print(' - ', end='')
+		print(Demography.country['code'])
+		val = Demography.start_year
+		for year in country['years']:
+			print(val, end=' ')
+			print(year)
+			val = val + 1
+		return 0
+
+	def rms_calcul(self, val):
+		year = Demography.start_year
+		count = 0
+		Demography.rms = 0
+		for year_value in Demography.my_country:
+			if (val == 1):
+				x = int(year)
+				y = int(year_value)
+			else:
+				y = int(year)
+				x = int(year_value)
+			count = count + 1
+			#print("y:" + str(y) +", x:" +str((Demography.m * x) + Demography.b))
+			Demography.rms += pow(y - ((Demography.m * x) + Demography.b), 2)
+			year = year + 1
+
+		Demography.rms =(Demography.rms / (count - 0))
+		#print("demographic:", end="")
+		Demography.rms = math.sqrt(Demography.rms)
+		#print(Demography.rms)
+
+	def calculate_predicted_population(self, val):
+		if val == 1:
+			Demography.predicted_population = (2050 * Demography.m) + Demography.b
+		else:
+			Demography.predicted_population = (2050 - Demography.b)/ Demography.m
+		
+	def calculate_correlation(self):
+		numerator = (Demography.sum_xy * Demography.num_values) - (Demography.sum_x * Demography.sum_y)
+		denominator = ((Demography.num_values* Demography.sum_x_square) - pow(Demography.sum_x, 2)) * ((Demography.num_values*Demography.sum_y_square) - (pow(Demography.sum_y,2)))
+		Demography.correlation = numerator / (math.sqrt(denominator))
+		#print(Demography.correlation)
+
+	def algorithm(self, val):
+		Demography.calculate(self, Demography.my_country, val)
+		Demography.calculate_m(self)
+		Demography.calculate_b(self)
+		Demography.rms_calcul(self, val)
+		Demography.simplify(self)
+		if (val == 1):
+			Demography.calculate_correlation(self)
+
+		Demography.calculate_predicted_population(self, val)
+		Demography.print_stuff(self,val)
+
+	def main_loop(self, argv):
+		if not argv or len(argv) < 2:
+			return 84
+		for x in range(1,len(argv)):
+			#print(x)
+			country= Demography.get_values(self,argv[x])
+			Demography.countrys.append(country)
+		#for country in Demography.countrys:
+		#	Demography.print_years(self, country)
+
+		Demography.calculate_my_country(self)
+		Demography.algorithm(self, 1)
+		Demography.algorithm(self, 2)			
+		return 0
+	
+
+def main():
+	try:
+		if argv and len(argv) == 2 and argv[1] == "-h":
+			printe = Print()
+			printe.print_help()
+			return 0
+		elif argv and len(argv) > 1: 
+			demograpy = Demography()
+			demograpy.main_loop(argv)
+			return 0
+	except Exception as e:
+		#print("error:" + str(e))
+		return 84
+	return 84
+
+if __name__ == '__main__':
+	exit(main())

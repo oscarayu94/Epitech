@@ -1,0 +1,74 @@
+#! /usr/bin/python2.7
+from __future__ import print_function
+import sys
+import math
+
+class Data:
+    n = 0
+    a = 0
+    h = 0
+    sd = 0
+
+def check_values(arg1, arg2, arg3, arg4):
+    arg_1 = arg1
+    arg_2 = arg2
+    arg_3 = arg3
+    arg_4 = arg4
+    try:
+        val1 = float(arg_1)
+        val2 = float(arg_2)
+        val3 = float(arg_3)
+        val4 = float(arg_4)
+    except ValueError:
+        exit(84)
+    Data.n = val1
+    Data.a = val2
+    Data.h = val3
+    Data.sd = val4
+    ask_user()
+
+def do_math(value):
+    
+
+def check_user_input(user_info):
+    arg_user = user_info
+    try:
+        val1 = float(arg_user)
+    except ValueError:
+        print("Wrong values")
+        ask_user()
+    do_math(user_info)
+
+def ask_user()
+    bool(trigger) = False
+    user_info
+    print ("Enter next value: ")
+    while (trigger != True):
+        try:
+            user_info = input(prompt)
+        except EOFError:
+            continue():
+        check_user_input(user_info)
+
+def help():
+    print("USAGE")
+    print("\t./206neutrinos n a h sd\n")
+    print("DESCRIPITON")
+    print("\tn\tnumber of values")
+    print("\ta\tarithmetic mean")
+    print("\th\tharmonic mean")
+    print("\tsd\tstandard deviation")   
+
+if __name__ == "__main__":
+    try:
+        if len(sys.argv) == 1:
+            exit(84)
+        if len(sys.argv) == 2 and sys.argv[1] == "-h":
+            help()
+        elif (len(sys.argv) == 4) and sys.argv[1] != "-h":
+            check_values(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+        else:
+            exit(84)
+    except Exception as e:
+        exit(84)
+    exit(0)

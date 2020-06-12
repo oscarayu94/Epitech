@@ -1,0 +1,106 @@
+#! /usr/bin/python2.7
+from __future__ import print_function
+import sys
+import math
+
+def number_check_IQ(arg1, arg2):
+    arg_1 = arg1
+    arg_2 = arg2
+    try:
+        val1 = float(arg_1)
+        val2 = float(arg_2)
+    except ValueError:
+        exit(84)
+    IQ(arg1,arg2)
+
+def number_check_prcnt(arg1, arg2, arg3, arg4):
+    arg_1 = arg1
+    arg_2 = arg2
+    arg_3 = arg3
+    arg_4 = arg4
+    try:
+        val1 = float(arg_1)
+        val2 = float(arg_2)
+        val3 = float(arg_3)
+        val4 = float(arg_4)
+    except ValueError:
+        exit(84)
+    if (arg_4 == 0):
+        prcnt(arg1,arg2,arg3)
+    else:
+        limited_prcnt(arg1,arg2,arg3,arg4)
+
+def Integrate(N, a ,b, sigma, micron):
+    def f(x):
+        #type your function after return
+        return ((1/(sigma*math.sqrt(2*math.pi)))*(math.exp(-(math.pow(x-micron,2))/(math.pow(sigma,2)))))
+    value=0
+    value2=0
+    for n in range(1, N+1):
+        value += f(a+((n-(1/2))*((b-a)/N)))
+    value2 = ((b-a)/N)*value
+    return value2
+   
+def prcnt(arg1,arg2,arg3):
+    micron = float(arg1)
+    sigma = float(arg2)
+    b = float(arg3)
+    a = 0.00
+    print ("%.2f" % (Integrate(1000, a, b, sigma, micron)*100), end = "")
+    print ("%", end = "")
+    print (" of people have an IQ inferior to ", end = "")
+    print (arg3)
+
+def limited_prcnt(arg1,arg2,arg3, arg4):
+    micron = float(arg1)
+    sigma = float(arg2)
+    b = float(arg3)
+    a = float(arg4)
+    print ("%.2f" % (Integrate(1000, a, b, sigma, micron)*100), end = "")
+    print ("%", end = "")
+    print (" of people have an IQ between ", end = "")
+    print (arg3, end = " and ")
+    print (arg4)
+
+def IQ(arg1, arg2):
+    loop = 0
+    micron = float(arg1)
+    sigma = float(arg2)
+    while (loop < 201):
+        #result1 = ((1/(sigma*math.sqrt(2*math.pi)))*(math.exp(-(math.pow(loop-micron,2))/(math.pow(sigma,2)))))
+        #result2 = ((1/(sigma*math.sqrt(2*math.pi)))*(math.exp(-0.5*(math.pow((loop-micron)/(2*sigma),2)))))
+        #result3 = ((1/(sigma*math.sqrt(2*math.pi)))*(math.exp(-0.5*(math.pow(loop-micron/sigma,2)))))
+        #result4 = ((1/(15*math.sqrt(2*math.pi)))*math.exp(-0.5*math.pow((110 - 100)/15,2)))
+        result5 = ((1/(sigma*math.sqrt(2*math.pi)))*math.exp(-0.5*math.pow((loop - micron)/15,2)))
+        print(loop, end ="")
+        print(" ", end="")
+        print("%.5f" % result5)
+        loop += 1
+
+def help():
+    print("USAGE")
+    print("\t./205IQ u s [IQ1] [IQ2]\n")
+    print("DESCRIPITON")
+    print("\tu\tmean")
+    print("\ts\tstandard deviation")
+    print("\tIQ1\tminimum IQ")
+    print("\tIQ2\tmaximum IQ")        
+
+if __name__ == "__main__":
+    try:
+        if len(sys.argv) == 1:
+          exit(84)
+        if len(sys.argv) == 2 and sys.argv[1] == "-h":
+            help()
+        elif len(sys.argv) == 3 and sys.argv[1] != "-h":
+            number_check_IQ(sys.argv[1], sys.argv[2])
+        elif (len(sys.argv) == 4 or len(sys.argv) == 5) and sys.argv[1] != "-h":
+            if (len(sys.argv) == 4):
+                number_check_prcnt(sys.argv[1], sys.argv[2], sys.argv[3], 0)
+            else: 
+                number_check_prcnt(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+        else:
+            exit(84)
+    except Exception as e:
+        exit(84)
+    exit(0)

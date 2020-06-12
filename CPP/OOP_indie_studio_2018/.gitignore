@@ -1,0 +1,23 @@
+.vscode
+.vs
+*.vcxproj
+*.vcxproj.filters
+bomberman.dir
+*.sln
+*.cmake
+CMakeFiles
+Win32
+CMakeCache.txt
+include/irrlicht
+# include/SFML
+# Windows
+ALL_BUILD.vcxproj.user
+build/Debug/bomberman.exe
+build/Debug/bomberman.ilk
+build/Debug/bomberman.pdb
+build/Debug/Irrlicht.dll
+build/bomberman
+build/Makefile
+info
+*.gcda
+*.gcno

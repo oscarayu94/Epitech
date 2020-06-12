@@ -1,0 +1,231 @@
+#!/usr/bin/env python3
+# coding=UTF-8
+
+from sys import argv, exit
+
+import math
+import time
+import csv
+
+class Print(object):
+	def print_help(self):
+		print("USAGE\n\t./208dowels 0O 01 02 03 04 05 06 07 08\n\nDESCRIPTION\n\tOi\tsize of the observed class")
+
+class Dowels(object):
+	sum_x = 0
+	
+	_observed_class = []
+	_x =  [ [x for y in range(1)] for x in range(9)]
+	_Ox = []
+	_Tx = []
+	_sum_all = 0
+	_distribution = 0
+
+	def get_observed_class(self, argv):
+		sum = 0
+		for val in range(1, len(argv)):
+			self._observed_class.append(int(argv[val]))
+			sum += int(argv[val])
+			if (int(argv[val]) < 0):
+				return 84
+		if sum != 100:
+			return 84
+		return 0
+	
+	def get_lower_position(self):
+		current_smaller =  -1
+		for val in self._Ox:
+			if val < current_smaller or current_smaller == -1:
+				current_smaller = val
+		if current_smaller >= 10:
+			return -1
+		pos = 0
+		for val in self._Ox:
+			if val == current_smaller:
+				return pos
+			pos += 1
+		return -1
+
+
+	def merge_values(self, pos, add):
+		_Ox = []
+		my_pos = -1
+		#print(pos)
+		_x =  [ [None for y in range(1)] for x in range(9)]
+		for val in range(len(self._Ox)):
+			#print(self._Ox)
+			#print(_Ox)
+			#print("x:" +str(_x))
+			if (val + add == pos):
+				_Ox[my_pos] += (self._Ox[val])
+				_x[my_pos + 0].extend(self._x[val])
+			else:
+				_Ox.append(self._Ox[val])
+				_x[my_pos + 1].extend(self._x[val])
+				#_x.append([val])
+				#self._x.append(str(val))
+				my_pos += 1
+		#print("end_x:" +str(_x))
+		#self.add_new_x_values(_x)
+		self._x = _x
+		self._Ox = _Ox
+
+
+	def merge_direction(self, position):
+		if (position == len(self._Ox) -1):
+			return 0
+		elif position == 0:
+			return -1
+		elif (self._Ox[position - 1] < self._Ox[position + 1]):
+			return 0
+		return -1
+
+	def remove_Nones(self):
+		for val in self._x:
+			while val.count(None) > 0:
+				for dam in val:
+					if (dam == None):
+						val.remove(dam)
+		while self._x.count([]) > 0:
+			for val in self._x:
+				if val == []:
+					self._x.remove(val)
+
+
+	def get_array(self):
+		
+		self._Ox = self._observed_class
+
+		condition =True
+		#print("x:"+ str(self._x))
+
+		while condition:
+			position = self.get_lower_position()
+			if (position == -1 or position >= 10):
+				condition = False
+			else:
+				direction = self.merge_direction(position)
+				#print("Pos:" + str(position) + ", dir:" + str(direction))
+				self.merge_values(position, direction)
+
+			#print("Ox:"+ str(self._Ox))
+			#print("x:"+ str(self._x))
+		self.remove_Nones()
+
+			
+	def print_x(self):
+		print("  x    | ", end="")
+		for val in self._x:
+			pos = 0
+			for num in val:
+				if  val != self._x[len(self._x) - 1]:
+					print(num, end="")	
+				if num != val[len(val) - 1]:
+					if  val != self._x[len(self._x) - 1]:
+						print("-", end="")
+						pos += 1
+				elif val == self._x[len(self._x) - 1]:
+					print(str(val[0]) + "+", end="")
+					pos += 1
+				pos += len(str(num))
+			for position in range(pos, 6):
+				print(" ", end="")
+			print("| ", end="")
+		print("Total")
+
+	def print_Ox(self):
+		print(" Ox    | ", end="")
+		sum_all = 0
+		for val in self._Ox:
+			pos = 0
+			print(val, end="")
+			sum_all += int(val)
+			pos += len(str(val))
+			for position in range(pos, 6):
+				print(" ", end="")
+			print("| ", end="")
+		print("" + str(sum_all))
+		self._sum_all = sum_all
+		
+
+	def distribution(self):
+		#the mean of the probability distribution
+		p = 0
+		num = 0
+		for val in self._observed_class:
+			p += num * val
+			num += 1
+		p = p / 10000
+		self._distribution = p
+		print("Distribution:\t\tB(" + str(self._sum_all) + ", " + "%.4f" % p + ")")
+		return(p)
+
+		#self._observed_class
+	def print_degrees_of_fredom(self):
+		print("Degrees of freedom:\t" + str(len(self._Ox) - 2) )
+
+	def get_fit_validity(self):
+		
+		data = [[99, 90, 80, 70, 60, 50, 40, 30, 20, 10, 5, 3, 1],
+				[0.00, 0.02, 0.06, 0.15, 0.27, 0.45, 0.71, 1.07, 1.64, 2.71, 3.84, 5.41, 6.63],
+				[0.02, 0.21, 0.45, 0.71, 1.02, 1.39, 1.83, 2.41, 3.22, 4.61, 5.99, 7.82, 9.21],
+				[0.11, 0.58, 1.01, 1.42, 1.87, 2.37, 2.95, 3.66, 4.64, 6.25, 7.81, 9.84, 11.34],
+				[0.30, 1.06, 1.65, 2.19, 2.75, 3.36, 4.04, 4.88, 5.99, 7.78, 9.49, 9.84, 11.34],
+				[0.55, 1.61, 2.34, 3.00, 3.66, 4.35, 5.13, 6.06, 7.29, 9.24, 11.07, 11.67, 13.28],
+				[0.7, 2.20, 3.07, 3.83, 4.57, 5.35, 6.21, 7.23, 8.56, 10.64, 12.59, 15.03, 16.81],
+				[1.24, 2.83, 3.82, 4.67, 5.49, 6.35, 7.28, 8.38, 9.80, 12.02, 14.07, 16.62, 18.48],
+				[1.65, 3.49, 4.59, 5.53, 6.42, 7.34, 8.35, 9.52, 11.03, 13.36, 15.51, 18.17, 20.09],
+				[2.09, 4.17, 5.38, 6.39, 7.63, 8.34, 9.41, 10.66, 12.24, 14.68, 16.92, 19.68, 21.67],
+				[2.56, 4.87, 6.18, 7.27, 8.30, 9.34, 10.47, 11.78, 13.44, 15.99, 18.31, 21.16, 23.21]
+			]
+		value = self._distribution * (len(self._Ox) - 2)
+		value = value * 10
+		#print(value)
+		pos = 0
+		for val in data[int(len(self._Ox) - 2)]:
+			if val > value:
+				print("Fit validity:\t\t", end="")
+				percentage = data[int(self._distribution)][pos]
+				if percentage == 99:
+					print("P > 99%")
+				elif percentage == 1:
+					print("P < 1%")
+				else:
+					percentage_left =  data[int(self._distribution)][pos - 1]
+					print(str(percentage) + "% < P < " + str(percentage_left) + "%" )
+				#print(str(val) + "," + str(data[int(self._distribution)][pos]))
+				break
+			
+			pos += 1
+		
+
+	def start(self, argv):
+		if self.get_observed_class(argv) == 84:
+			return 84
+		self.get_array()
+		self.print_x()
+		self.print_Ox()
+		print("")
+		self.distribution()
+		print("")
+		self.print_degrees_of_fredom()
+		self.get_fit_validity()
+		return 0
+
+def main():
+	#try:
+	if argv and len(argv) == 2 and argv[1] == "-h":
+		printe = Print()
+		printe.print_help()
+		return 0
+	elif argv and len(argv) == 10: 
+		dowels = Dowels()
+		dowels.start(argv)
+		return 0
+	#except Exception as e:
+	#	print("error:" + str(e))
+	#	return 84
+	return 84
+
+if __name__ == '__main__':
+	exit(main())

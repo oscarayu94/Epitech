@@ -1,0 +1,82 @@
+#! /usr/bin/python2.7
+
+import sys
+import math
+
+def formula(arg1, arg2, arg3, arg4, arg5, arg6):
+    print("The real game begins here\n")
+
+def check_negatives(arg1, arg2, arg3, arg4, arg5, arg6):
+    arg_1 = arg1
+    arg_2 = arg2
+    arg_3 = arg3
+    arg_4 = arg4
+    arg_5 = arg5
+    arg_6 = arg6  
+    
+    val1 = float(arg_1)
+    val2 = float(arg_2)
+    val3 = float(arg_3)
+    val4 = float(arg_4)
+    val5 = float(arg_5)
+    val6 = float(arg_6)
+
+    if (val1 < 0):
+        exit(84)
+    if (val2 < 0):
+        exit(84)
+    if (val3 < 0):
+        exit(84)
+    if (val4 < 0):
+        exit(84)
+    if (val5 < 0):
+        exit(84)
+    if (val6 < 0):
+        exit(84)
+    formula(arg1,arg2,arg3,arg4,arg5,arg6)
+    
+
+def check_numbers(arg1, arg2, arg3, arg4, arg5, arg6):
+    arg_1 = arg1
+    arg_2 = arg2
+    arg_3 = arg3
+    arg_4 = arg4
+    arg_5 = arg5
+    arg_6 = arg6  
+    try:
+        val1 = float(arg_1)
+        val2 = float(arg_2)
+        val3 = float(arg_3)
+        val4 = float(arg_4)
+        val5 = float(arg_5)
+        val6 = float(arg_6)
+    except ValueError:
+        exit(84)
+    check_negatives(arg1,arg2,arg3,arg4,arg5,arg6)     
+
+def help():
+    print("USAGE")
+    print("\t./201yams d1 d2 d3 d4 d5 c\n")
+    print("DESCRIPTION")
+    print("\td1\tvalue of the first dice (0 if not thrown)")
+    print("\td2\tvalue of the second dice (0 if not thrown)")
+    print("\td3\tvalue of the third dice (0 if not thrown)")
+    print("\td4\tvalue of the fourth dice (0 if not thrown)")
+    print("\td5\tvalue of the fifth die (0 if not thrown)")
+    print("\tc\texpected combination")
+
+if __name__ == "__main__":
+    try: 
+        if len(sys.argv) == 2 and sys.argv[1] == "-h":
+            help()
+        elif len(sys.argv) == 7:
+            print("Chicken brogar")
+            check_numbers(sys.argv[1], sys.argv[2], sys.argv[3], 
+            sys.argv[4], sys.argv[5], sys.argv[6])
+        else:
+            print("Cringe!1")
+            exit(84)
+    except Exception as e:
+        print("Cringe!2")
+        exit(84)
+    exit(0)

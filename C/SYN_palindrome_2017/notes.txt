@@ -1,0 +1,29 @@
+
+## NOTES ABOUT PALINDROME ##
+
+- Logical parsing almost finished, only in need of debugging
+  	  // ./palindrome -p ((number)) has no effect, works with arguments before tho.
+
+- (-n) works perfectly
+
+- (-p) presents the following error
+       **	./palindrome -imax po -p 12
+              0 leads to 0 in 0 iterations in base 10
+	      1 leads to 1 in 0 iterations in base 10
+	      2 leads to 2 in 0 iterations in base 10
+	      3 leads to 3 in 0 iterations in base 10
+	      4 leads to 4 in 0 iterations in base 10
+	      5 leads to 5 in 0 iterations in base 10
+	      6 leads to 6 in 0 iterations in base 10
+	      7 leads to 7 in 0 iterations in base 10
+	      8 leads to 8 in 0 iterations in base 10
+	      9 leads to 9 in 0 iterations in base 10
+	      12 leads to 11 in 11 iterations in base 10
+	      11 leads to 11 in 0 iterations in base 10
+	  **
+
+	  Expected output: Palindromic numbers.
+
+	  Possible reasons: Invalid input or storage on structure/bad structure.
+
+##

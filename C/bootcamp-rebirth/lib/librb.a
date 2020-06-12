@@ -1,0 +1,445 @@
+!<arch>
+//                                              20        `
+rb_strisinformat.c/
+count_words.c/  1519128291  1000  1000  100664  505       `
+/*
+** EPITECH PROJECT, 2018
+** count_words
+** File description:
+** count words rebirth
+*/
+
+#include <stdio.h>
+#include "list.h"
+
+int	count_words(char *str)
+{
+	int	i = 0;
+	int	j = 0;
+	char	*c = "count_words: String pointer is NULL";
+
+	if (str == NULL)
+		rb_xerror(c);
+	while (str[i] != '\0')	{
+		if ((str[i] <= 'z' && str[i] >= 'a') || (str[i] <= 'Z' && str[i] >= 'A')) {
+			j++;
+			while ((str[i] <= 'z' && str[i] >= 'a') || (str[i] <= 'Z' && str[i] >= 'A'))
+				i++;
+		}
+		else
+			i++;
+	}
+	return (j);
+}
+
+my_putchar.c/   1519138954  1000  1000  100664  150       `
+/*
+** EPITECH PROJECT, 2018
+** putchar rebirth
+** File description:
+** Rebirth
+*/
+
+#include <unistd.h>
+
+void	my_putchar(char c)
+{
+	write(1, &c, 1);
+}
+my_putstr.c/    1519034094  1000  1000  100664  257       `
+/*
+** EPITECH PROJECT, 2018
+** my_putstr
+** File description:
+** putstr rebirth
+*/
+
+#include <unistd.h>
+
+void	my_putchar(char c)
+{
+	write(1, &c, 1);
+}	
+
+void	my_putstr(char *c)
+{
+	int	i;
+
+	i = 0;
+	
+	while (c[i] !='\0')
+	{
+		my_putchar(c[i]);
+		i++;
+	}
+}
+
+	
+
+my_strlen.c/    1519382606  1000  1000  100664  195       `
+/*
+** EPITECH PROJECT, 2018
+** my_strlen.c
+** File description:
+** strlen rebirth
+*/
+
+#include <stdio.h>
+
+int	my_strlen(char *c)
+{
+        int	i = 0;
+
+	while (c[i] != '\0')
+		i++;
+	return (i);
+}
+
+my_swap.c/      1519053697  1000  1000  100664  199       `
+/*
+** EPITECH PROJECT, 2018
+** my_swap
+** File description:
+** my_swap rebirth
+*/
+
+//echange valeurs
+
+#include <stdio.h>
+
+void	my_swap(int *a ,int *b)
+{
+	int	*tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+rb_print_err.c/ 1519037946  1000  1000  100664  332       `
+/*
+** EPITECH PROJECT, 2018
+** rb_print_err.c
+** File description:
+** rb_print_err rebirth
+*/
+
+// un seul appel a write
+//afficher sur la sortie d’erreur la chaine de caractères passée en parametre
+
+#include <unistd.h>
+
+void	rb_print_err(char *c)
+{
+	int	i;
+
+	i = 0;
+	while ( c[i] != '\0')
+	{
+		write(2, &c[i], 1);
+		i++;
+	}
+}	
+
+rb_putsr.c/     1519114117  1000  1000  100664  551       `
+/*
+** EPITECH PROJECT, 2018
+** rb_putsr
+** File description:
+** put str rebirthed
+*/
+
+#include <stdlib.h>
+#include <unistd.h>
+
+int	my_strlen(char *str)
+{
+	int	j;
+
+	j = 0;
+	while ( str[j] != '\0')
+	{
+		j++;
+	}	
+	return (j);	
+}
+
+void	my_onscreen(int i, char *str)
+{
+	write (i, str, my_strlen(str));
+}
+
+void	rb_putstr(char *str)
+{
+	int	i;
+	char	*err_str;
+
+        err_str = "Error, string pointer is null.\n";
+	i = 0;
+	
+	if (str == NULL)
+	{
+		i = 2;
+		my_onscreen(i, err_str);
+		exit (84);
+	}	
+	else
+	{
+		i = 1;
+		my_onscreen(i, str);
+	}	
+		
+        
+}
+
+
+/0              1519386184  1000  1000  100664  861       `
+/*
+** EPITECH PROJECT, 2018
+** rb_strisinformat
+** File description:
+** strisinformat rebirth
+*/
+
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <unistd.h>
+
+void	rb_print_error(char *c)
+{
+	int     i = 0;
+
+	while ( c[i] != '\0') {
+		write (2, &c[i], 1);
+		i++;
+	}
+}
+
+int	my_strlen(char *c)
+{
+	int	i = 0;
+
+	while (c[i] != '\0')
+		i++;
+	return (i);
+}
+
+void	rb_xerror(char *c)
+{
+	write (2, "Error:", 6);
+	rb_print_error(c);
+	write (2, "\n", 1);
+	exit(84);
+}
+
+int	rb_strisinformat(char *str , char *format)
+{
+	int	i;
+	int	j = 0;
+	int	flagp = 0;
+
+	if (str == NULL || format == NULL)
+		rb_xerror("rb_strisinformat: String pointer is NULL");
+	for (i = 0 ; str[i] != '\0'; i++) {
+		j = 0;
+		flagp = 0;
+		while (format[j] != '\0') {
+			if (format[j] != str[i])
+				flagp++;
+			j++;
+		}
+		if (flagp == strlen(format))
+			return (0);
+	}
+	return (1);
+}
+
+rb_strlen.c/    1519116730  1000  1000  100664  306       `
+/*
+** EPITECH PROJECT, 2018
+** rb_strlen
+** File description:
+** strlen rebirth
+*/
+
+#include <stdio.h>
+#include "list.h"
+
+int	rb_strlen(char *str)
+{
+	int	i;
+
+	char *c;
+
+	c = "rb_strlen: String pointer is NULL";
+		
+	if (str == NULL)
+	{
+		rb_xerror(c);
+	}	
+	for (i = 0; str[i] != '\0'; i++)
+		return (i);
+}
+
+rb_strlowcase.c/1519470258  1000  1000  100664  750       `
+/*
+** EPITECH PROJECT, 2018
+** rb_strlowcase
+** File description:
+** strlowcase rebirth
+*/
+
+#include <unistd.h>
+#include <stdlib.h>
+
+void	rb_print_error(char *c)
+{
+	int	i;
+
+	i = 0;
+	while ( c[i] != '\0') {
+		write (2, &c[i], 1);
+		i++;
+	}
+}
+
+void	rb_xerror(char *c)
+{
+	write (2, "Error:", 6);
+	rb_print_error(c);
+	write (2, "\n", 1);
+	exit (84);
+}
+
+void	my_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+void	rb_putstr(char *c)
+{
+	int	i;
+
+	i = 0;
+	while (c[i] !='\0') {
+		my_putchar(c[i]);
+		i++;
+	}
+}
+
+char	*rb_strlowcase(char *str)
+{
+	int	i;
+	char	*c = "rb_strlowcase : String pointer is NULL";
+	
+	if (str == NULL)
+		rb_xerror(c);
+	for (i = 0; str[i] != '\0'; i++) {
+		if (str[i] >= 'A' && str[i] <= 'Z') {
+			str[i] = str[i] + 32;
+		}
+	}
+	return (str);
+}
+rb_strupcase.c/ 1519470672  1000  1000  100664  747       `
+/*
+** EPITECH PROJECT, 2018
+** rb_strupcase
+** File description:
+** strupcase rebirth
+*/
+
+#include <unistd.h>
+#include <stdlib.h>
+
+void	rb_print_error(char *c)
+{
+	int	i;
+
+	i = 0;
+	while ( c[i] != '\0') {
+		write (2, &c[i], 1);
+		i++;
+	}
+}
+
+void	rb_xerror(char *c)
+{
+	write (2, "Error:", 6);
+	rb_print_error(c);
+	write (2, "\n", 1);
+	exit (84);
+}
+
+void	my_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+void	rb_putstr(char *c)
+{
+	int i;
+
+	i = 0;
+	while (c[i] != '\0') {
+		my_putchar(c[i]);
+		i++;
+	}
+}
+
+char	*rb_strupcase(char*str)
+{
+	int	i;
+	char	*c = "rb_strupcase: String pointer is NULL";
+
+	if (str == NULL)
+		rb_xerror(c);
+	for (i = 0; str[i] != '\0'; i++) {		
+		if (str[i] >= 'a' && str[i] <= 'z') {
+			str[i] = str[i] - 32;
+		}
+	}
+	return (str);
+}
+
+
+rb_xerror.c/    1519051094  1000  1000  100664  620       `
+/*
+** EPITECH PROJECT, 2018
+** rb_xerror.c
+** File description:
+** rb_xerror rebirth
+*/
+
+/*afficher sur la sortie d’erreur la chaine de caractères passée en paramètre précédée par la mention 
+«Error: » puis quittera le programme en retournant 84. Note : un \n sera ajouté automatiquement
+à la fin
+
+Fonctions recommandes: rb_print_err ; exit . 
+
+*/
+
+#include <stdlib.h>
+#include <unistd.h>
+
+void	rb_print_error(char *c)
+{
+	int	i;
+
+	i = 0;
+	while ( c[i] != '\0')
+	{
+		write (2, &c[i], 1);
+		i++;
+	}
+}	
+
+void	rb_xerror(char *c)
+{
+	write (2, "Error:", 6);
+	rb_print_error(c);
+	write (2, "\n", 1);
+	exit (84);
+}
+

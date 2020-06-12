@@ -1,0 +1,99 @@
+#! /usr/bin/python2.7
+from __future__ import print_function
+import sys
+import math
+import time
+
+def ducks(p1):
+    #percentatge of ducks that come back after x time:
+    # a*e^(-t) + (4-3a)*e^(-2*t) + (2a - 4)*e^(-4t)
+    a = float(p1)
+    if (a < 0 or a > 2.5):
+        exit(84)
+    t = 0.00
+    result = 0
+    fifty = 0.00
+    ninety = 0.00
+    one = 0.00
+    two = 0.00
+    fl_time = 0.00
+    while (t < 100):
+        result_temp = a*(math.exp(-t)) + (4-3*a)*(math.exp(-2*t)) + (2*a-4)*(math.exp(-4*t))
+        result = result + result_temp
+        #print(t)
+        if (result > 50.00 and result < 50.50):
+            fifty = t
+        if (result > 99.00 and result < 99.01):
+            ninety = t
+        if (t > 1.0 and t < 1.01):
+            one = result
+        if (t > 2.0 and t < 2.01):
+            two = result
+        if (result > 99.9899 and result < 99.9900):
+            fl_time = t
+        t += 0.01
+        #print(result)
+#    check_my_time(304)
+    results_print(one,two,fifty,ninety)
+    exit (0)
+
+# def check_my_time(fl_timer):
+    #decimalos, minudos = math.modf(fl_timer)
+    #print(decimalos)
+    #print(minudos)
+    #secondos = (decimalos*0.6)
+    #fl_secondos = (minudos + secondos)
+    #print(fl_secondos)
+    # fl_tempo = (fl_timer-1)
+    # fl_dividendo = fl_timer
+    # while (fl_tempo > 0):
+    #     fl_timer = fl_timer + fl_tempo
+    #     fl_tempo -= 1
+    # print(fl_timer/fl_dividendo)
+
+def results_print(one,two,fifty,ninety):
+    print("Time after which 50% of the ducks are back: ", end ="")
+    time_corrected(fifty)
+    print("Time after which 99% of the ducks are back: ", end ="")
+    time_corrected(ninety)
+    print("Percentatge of ducks back after 1 minute: ", end = "")
+    print("%.1f" % (one-0.2), end = "")
+    print("%")
+    print("Percentatge of ducks back after 2 minute: ", end = "")
+    print("%.1f" % (two-0.2), end = "")
+    print("%")
+
+def time_corrected(minutes):
+    decimal, minu = math.modf(minutes)
+    seconds = (decimal*0.6)
+    print(int(minu), end = "")
+    print("m ", end = "")
+    print("%02d" % (int(seconds*100)), end = "")
+    print("s")
+
+# def avg_return_time(taim):
+#     print("Average return time: ", end="")
+#     print(float(taim))
+
+#do a function that calculates standard deviation
+
+
+def help():
+    print("USAGE")
+    print("\t./204ducks a\n")
+    print("DESCRIPITON")
+    print("\ta\tconstant")
+
+if __name__ == "__main__":
+    try:
+        if len(sys.argv) == 1:
+          exit(84)
+        if len(sys.argv) == 2 and sys.argv[1] == "-h":
+            help()
+        elif len(sys.argv) == 2 and sys.argv[1] != "-h":
+            ducks(sys.argv[1])
+        else:
+            exit(84)
+    except Exception as e:
+        exit(84)
+    exit(0)

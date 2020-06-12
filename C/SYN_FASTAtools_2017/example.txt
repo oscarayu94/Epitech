@@ -1,0 +1,5 @@
+this is a example file
+this file is supposed to give
+more information
+about how get nextline works
+Hopefully

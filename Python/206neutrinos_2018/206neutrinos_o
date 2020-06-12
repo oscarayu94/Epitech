@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+# coding=UTF-8
+
+from sys import argv, exit
+
+import math
+import time
+
+# import scipy.integrate as integrate
+# import scipy.special as special
+
+class Print(object):
+	def print_help(self):
+		print("USAGE\n\t./206neutrinos n a h sd\n\nDESCRIPTION\n\tn number of values\n\ta arithmetic mean\n\th harmonic mean\n\tsd standard deviation")
+
+class Neutrions(object):
+	n = 0
+	a = 0
+	h = 0
+	sd = 0
+	rms = 0
+	next_value = 0
+
+	def get_values(self, argv):
+		if argv and len(argv) == 2 and argv[1] == "-h":
+			printe = Print()
+			printe.print_help()
+			return 1
+		if not argv or len(argv) != 5:
+			return 84
+		Neutrions.n = float(argv[1])
+		Neutrions.a = float(argv[2])
+		Neutrions.h = float(argv[3])
+		Neutrions.sd = float(argv[4])
+		return 0
+	
+	def number_values():
+		Neutrions.n = Neutrions.n + 1
+		print("\tNumber of values:\t" + str(int(Neutrions.n)))
+
+	def standard_deviation():
+		standard = pow(Neutrions.sd, 2) * (Neutrions.n - 1)
+		standard = standard + pow(Neutrions.next_value - Neutrions.a, 2)
+		standard = math.sqrt(standard / (Neutrions.n))
+		Neutrions.sd = standard
+		print("\tStandard deviation:\t" + "%.2f" % (Neutrions.sd))
+
+	def aritmetic_mean():
+		arit = Neutrions.a * (Neutrions.n - 1)
+		arit = (arit + Neutrions.next_value)/ Neutrions.n
+		Neutrions.a = arit
+		print("\tArithmetic mean:\t" + "%.2f" % (Neutrions.a))
+	
+	def root_mean():
+		root_mean  = ((pow(Neutrions.sd, 2) + pow(Neutrions.a, 2)) * (Neutrions.n)) + pow(Neutrions.next_value, 2)
+		root_mean = math.sqrt(root_mean / (Neutrions.n + 1))
+		Neutrions.rms = root_mean
+
+	def print_root_mean():
+		print("\tRoot mean square:\t" + "%.2f" % (Neutrions.rms))
+
+	def armonic_mean():
+		harmonic = Neutrions.n/( 1 / Neutrions.next_value + (Neutrions.n - 1) / Neutrions.h)
+		Neutrions.h = harmonic
+		print("\tHarmonic mean:\t\t" + "%.2f" % (Neutrions.h) + "\n")
+
+	def start_exec(self):
+		while (4):
+			input_value = input('Enter next value: ')
+			if (input_value == 'END'):
+				return 0
+			Neutrions.next_value = float(input_value)
+			Neutrions.number_values()
+			Neutrions.root_mean()
+			Neutrions.print_root_mean()
+			Neutrions.standard_deviation()
+			Neutrions.aritmetic_mean()
+			Neutrions.print_root_mean()
+			Neutrions.armonic_mean()
+		return 0
+
+def main():
+	try:
+		neutrin = Neutrions()
+		result = neutrin.get_values(argv)
+		if (result == 84):
+			return 84
+		if (result == 1):
+			return 0
+		neutrin.start_exec()
+		return 0
+	except Exception as e:
+		
+		#print("error:" + str(e))
+		return 84
+	return 0
+
+if __name__ == '__main__':
+	exit(main())

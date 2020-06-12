@@ -1,0 +1,13 @@
+#!/bin/sh
+
+############################### # # test # 13th January, 2020 # useless script # ###############################
+device0="/dev/sda2"
+if [ -b "$device0" ]; then
+	echo "$device0 is a block device."
+fi
+
+
+
+
+
+

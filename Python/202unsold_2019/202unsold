@@ -1,0 +1,51 @@
+#! /usr/bin/python3.6
+import sys
+
+def printfirstlines():
+    print()
+    print("--------------------------------------------------------------------------------")
+    print("\tX=10\tX=20\tX=30\tX=40\tX=50\tY law")
+    
+
+def applyformula(val1,val2):
+    printfirstlines()
+
+
+def isvalueok(val1, val2):
+    try:
+        if (val1 < 51):
+            exit(84)
+        elif (val2 < 51):
+            exit(84)
+    except ValueError:
+        exit(84)
+    applyformula(val1, val2)
+
+def isdigit(arg1, arg2):
+    arg_1 = arg1
+    arg_2 = arg2
+    try:
+        val1 = float(arg_1)
+        val2 = float(arg_2)
+    except ValueError:
+        exit(84)   
+    isvalueok(val1, val2)
+
+def help():
+    print("USAGE")
+    print("\t./202unsold a b\n")
+    print("DESCRIPTION")
+    print("\ta\tconstant computed from past results")
+    print("\tb\tconstant computed from past results")
+
+if __name__ == "__main__":
+    try:
+        if len(sys.argv) == 2 and sys.argv[1] == "-h":
+            help()
+        elif len(sys.argv) == 3:
+            isdigit(sys.argv[1], sys.argv[2])
+        else:
+            exit(84)
+    except Exception as e:
+        exit(84)
+    exit(0)
